@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conferma Attivazione PEC</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+    }
+    .letterhead {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .letterhead h1 {
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+    .date {
+      text-align: right;
+      margin-bottom: 30px;
+    }
+    .address {
+      margin-bottom: 30px;
+    }
+    .subject {
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-decoration: underline;
+    }
+    .content {
+      margin-bottom: 30px;
+    }
+    .pec-details {
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-left: 3px solid #2c3e50;
+      margin: 20px 0;
+    }
+    .pec-details p {
+      margin: 5px 0;
+    }
+    .pec-details strong {
+      width: 150px;
+      display: inline-block;
+    }
+    .caution {
+      background-color: #fff8e1;
+      padding: 15px;
+      border-left: 3px solid #ffc107;
+      margin: 20px 0;
+    }
+    .signature {
+      margin-top: 50px;
+    }
+    .footer {
+      margin-top: 50px;
+      font-size: 0.8em;
+      text-align: center;
+      color: #777;
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="letterhead">
+      <h1>Studio Biliato</h1>
+      <p>Via Roma, 123 - 00100 Roma</p>
+      <p>Tel: 06 123456789 - Email: info@studiobiliato.example</p>
+    </div>
+    
+    <div class="date">
+      <p><%= currentDate %></p>
+    </div>
+    
+    <div class="address">
+      <p><%= name %></p>
+      <p><%= address.street %></p>
+      <p><%= address.postalCode %> <%= address.city %> (<%= address.province %>)</p>
+    </div>
+    
+    <div class="subject">
+      <p>OGGETTO: Conferma attivazione casella di Posta Elettronica Certificata (PEC)</p>
+    </div>
+    
+    <div class="content">
+      <p>Gentile <%= name %>,</p>
+      
+      <p>con la presente comunichiamo l'avvenuta attivazione della casella di Posta Elettronica Certificata (PEC) a Lei intestata, come da richiesta effettuata in data <%= formatDate(pec.requestDate) %>.</p>
+      
+      <p>Di seguito riportiamo i dettagli della casella PEC attivata:</p>
+      
+      <div class="pec-details">
+        <p><strong>Indirizzo PEC:</strong> <%= pec.address %></p>
+        <p><strong>Data attivazione:</strong> <%= formatDate(pec.activationDate) %></p>
+        <p><strong>Scadenza:</strong> <%= formatDate(pec.expiryDate) %></p>
+        <p><strong>Spazio disponibile:</strong> <%= pec.space || '1 GB' %></p>
+        <p><strong>Fornitore servizio:</strong> <%= pec.provider || 'Aruba PEC S.p.A.' %></p>
+      </div>
+      
+      <p>Per accedere alla Sua casella PEC potrà collegarsi al seguente indirizzo web: <a href="<%= pec.webmailUrl || 'https://webmail.pec.it' %>"><%= pec.webmailUrl || 'https://webmail.pec.it' %></a></p>
+      
+      <p>Le credenziali di accesso Le sono state comunicate separatamente tramite <%= pec.credentialsSentMethod || 'SMS' %>.</p>
+      
+      <div class="caution">
+        <p><strong>Attenzione:</strong> Si ricorda che, ai sensi della normativa vigente, la casella PEC ha valore legale. I messaggi inviati e ricevuti tramite PEC equivalgono a raccomandate con ricevuta di ritorno. È importante consultare regolarmente la casella PEC e conservare adeguatamente le comunicazioni in essa contenute.</p>
+      </div>
+      
+      <p>Per qualsiasi chiarimento o assistenza tecnica riguardante l'utilizzo della PEC, può contattare il nostro studio al numero 06 123456789 o tramite email all'indirizzo info@studiobiliato.example.</p>
+      
+      <p>Si ricorda inoltre che il rinnovo della casella PEC è a carico dello Studio Biliato e sarà effettuato automaticamente alla scadenza.</p>
+    </div>
+    
+    <div class="signature">
+      <p>Cordiali saluti,</p>
+      <p>Dott. Marco Biliato</p>
+      <p>Studio Biliato</p>
+    </div>
+    
+    <div class="footer">
+      <p>Studio Biliato - P.IVA 12345678901 - C.F. BLTMRC80A01H501U</p>
+      <p>Iscrizione all'Albo dei Dottori Commercialisti di Roma n. 12345</p>
+    </div>
+  </div>
+</body>
+</html>

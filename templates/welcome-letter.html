@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lettera di Benvenuto</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+    }
+    .letterhead {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .letterhead h1 {
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+    .date {
+      text-align: right;
+      margin-bottom: 30px;
+    }
+    .address {
+      margin-bottom: 30px;
+    }
+    .greeting {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .content {
+      margin-bottom: 30px;
+    }
+    .signature {
+      margin-top: 50px;
+    }
+    .footer {
+      margin-top: 50px;
+      font-size: 0.8em;
+      text-align: center;
+      color: #777;
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="letterhead">
+      <h1>Studio Biliato</h1>
+      <p>Via Roma, 123 - 00100 Roma</p>
+      <p>Tel: 06 123456789 - Email: info@studiobiliato.example</p>
+    </div>
+    
+    <div class="date">
+      <p>{{currentDate}}</p>
+    </div>
+    
+    <div class="address">
+      <p>{{name}}</p>
+      <p>{{address.street}}</p>
+      <p>{{address.postalCode}} {{address.city}} ({{address.province}})</p>
+    </div>
+    
+    <div class="greeting">
+      <p>Gentile {{name}},</p>
+    </div>
+    
+    <div class="content">
+      <p>Siamo lieti di darle il benvenuto come cliente dello Studio Biliato. Desideriamo ringraziarla per la fiducia accordataci e confermarle il nostro impegno ad offrirle un servizio di consulenza fiscale e contabile di alta qualità.</p>
+      
+      <p>Come discusso durante il nostro incontro, lo Studio Biliato sarà il suo partner per tutte le necessità relative a:</p>
+      
+      <ul>
+        <li>Contabilità e dichiarazioni fiscali</li>
+        <li>Consulenza fiscale e tributaria</li>
+        <li>Pianificazione fiscale</li>
+        <li>Supporto per adempimenti societari</li>
+      </ul>
+      
+      <p>Il nostro team sarà a sua disposizione per qualsiasi necessità. Il suo referente principale sarà il Dott. Marco Biliato, che potrà contattare al numero 06 123456789 o all'indirizzo email marco.biliato@studiobiliato.example.</p>
+      
+      <p>In allegato troverà il contratto di servizio e le informazioni riguardanti le modalità di collaborazione, i servizi inclusi e le relative tariffe.</p>
+      
+      <p>La invitiamo a fornirci tutta la documentazione necessaria per iniziare la nostra collaborazione entro il [data], così da poter procedere tempestivamente con la gestione della sua posizione.</p>
+      
+      <p>Siamo entusiasti di iniziare questa collaborazione e siamo certi che il nostro studio potrà supportarla efficacemente nel raggiungimento dei suoi obiettivi aziendali.</p>
+    </div>
+    
+    <div class="signature">
+      <p>Cordiali saluti,</p>
+      <p>Dott. Marco Biliato</p>
+      <p>Studio Biliato</p>
+    </div>
+    
+    <div class="footer">
+      <p>Studio Biliato - P.IVA 12345678901 - C.F. BLTMRC80A01H501U</p>
+      <p>Iscrizione all'Albo dei Dottori Commercialisti di Roma n. 12345</p>
+    </div>
+  </div>
+</body>
+</html>

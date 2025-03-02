@@ -1,0 +1,2 @@
+Questa directory contiene le immagini per l'applicazione.
+Qui potrai aggiungere il logo, favicon e altre immagini necessarie.

@@ -1,0 +1,196 @@
+<%- include('partials/header') %>
+
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="card bg-primary text-white">
+      <div class="card-body">
+        <h2 class="card-title">Benvenuto nell'Assistente Biliato</h2>
+        <p class="card-text">La piattaforma intelligente per la gestione delle procedure contabili e dei clienti dello studio.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-5">
+  <div class="col-md-6 col-lg-3 mb-4">
+    <div class="card h-100">
+      <div class="card-body text-center">
+        <i class="fas fa-users fa-3x mb-3 text-primary"></i>
+        <h3 class="card-title h5">Gestione Clienti</h3>
+        <p class="card-text">Onboarding, anagrafica e monitoraggio dei clienti dello studio.</p>
+        <a href="/clients" class="btn btn-outline-primary">Gestisci Clienti</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-6 col-lg-3 mb-4">
+    <div class="card h-100">
+      <div class="card-body text-center">
+        <i class="fas fa-file-alt fa-3x mb-3 text-primary"></i>
+        <h3 class="card-title h5">Documenti</h3>
+        <p class="card-text">Genera e gestisci documenti personalizzati per i clienti.</p>
+        <a href="/documents" class="btn btn-outline-primary">Gestisci Documenti</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-6 col-lg-3 mb-4">
+    <div class="card h-100">
+      <div class="card-body text-center">
+        <i class="fas fa-tasks fa-3x mb-3 text-primary"></i>
+        <h3 class="card-title h5">Procedure</h3>
+        <p class="card-text">Gestisci le procedure contabili e fiscali per i tuoi clienti.</p>
+        <a href="/procedures" class="btn btn-outline-primary">Gestisci Procedure</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-6 col-lg-3 mb-4">
+    <div class="card h-100">
+      <div class="card-body text-center">
+        <i class="fas fa-robot fa-3x mb-3 text-primary"></i>
+        <h3 class="card-title h5">Assistente AI</h3>
+        <p class="card-text">Consulta l'assistente AI per domande su contabilità e fiscalità.</p>
+        <a href="/assistant" class="btn btn-outline-primary">Consulta Assistente</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header bg-light">
+        <h3 class="h5 mb-0">Ultimi Clienti Aggiunti</h3>
+      </div>
+      <div class="card-body">
+        <!-- Placeholder per i dati dinamici che verranno aggiunti dal backend -->
+        <div class="list-group list-group-flush">
+          <% if (typeof recentClients !== 'undefined' && recentClients.length > 0) { %>
+            <% recentClients.forEach(client => { %>
+              <a href="/clients/<%= client._id %>" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1"><%= client.name %></h5>
+                  <small><%= new Date(client.createdAt).toLocaleDateString() %></small>
+                </div>
+                <p class="mb-1"><%= client.companyType %> - <%= client.vatNumber || client.fiscalCode %></p>
+              </a>
+            <% }) %>
+          <% } else { %>
+            <p class="text-muted mb-0">Nessun cliente recente da mostrare.</p>
+          <% } %>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="/clients" class="btn btn-sm btn-primary">Vedi tutti</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header bg-light">
+        <h3 class="h5 mb-0">Procedure in Scadenza</h3>
+      </div>
+      <div class="card-body">
+        <!-- Placeholder per i dati dinamici che verranno aggiunti dal backend -->
+        <div class="list-group list-group-flush">
+          <% if (typeof upcomingProcedures !== 'undefined' && upcomingProcedures.length > 0) { %>
+            <% upcomingProcedures.forEach(procedure => { %>
+              <a href="/procedures/<%= procedure._id %>" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1"><%= procedure.title %></h5>
+                  <small class="text-danger"><%= new Date(procedure.dueDate).toLocaleDateString() %></small>
+                </div>
+                <p class="mb-1">Cliente: <%= procedure.clientName %></p>
+              </a>
+            <% }) %>
+          <% } else { %>
+            <p class="text-muted mb-0">Nessuna procedura in scadenza.</p>
+          <% } %>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="/procedures" class="btn btn-sm btn-primary">Vedi tutte</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header bg-light">
+        <h3 class="h5 mb-0">Assistente AI</h3>
+      </div>
+      <div class="card-body">
+        <p>Fai una domanda all'assistente AI riguardo contabilità, fiscalità o procedure:</p>
+        
+        <div class="input-group mb-3">
+          <input type="text" id="ai-question" class="form-control" placeholder="Inserisci la tua domanda...">
+          <button class="btn btn-primary" type="button" id="ask-ai-btn">
+            <i class="fas fa-paper-plane me-1"></i> Chiedi
+          </button>
+        </div>
+        
+        <div id="ai-response" class="p-3 border rounded d-none">
+          <div class="d-flex align-items-center mb-2">
+            <i class="fas fa-robot text-primary me-2"></i>
+            <strong>Risposta dell'Assistente:</strong>
+          </div>
+          <div id="ai-response-content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const questionInput = document.getElementById('ai-question');
+    const askButton = document.getElementById('ask-ai-btn');
+    const responseDiv = document.getElementById('ai-response');
+    const responseContent = document.getElementById('ai-response-content');
+    
+    askButton.addEventListener('click', async function() {
+      const question = questionInput.value.trim();
+      
+      if (!question) return;
+      
+      // Mostra un loader
+      responseDiv.classList.remove('d-none');
+      responseContent.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"></div><p>Elaborazione in corso...</p></div>';
+      
+      try {
+        const response = await fetch('/api/assistant/ask', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ question })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          // Formatta la risposta con markdown
+          responseContent.innerHTML = `<p>${data.answer}</p>`;
+        } else {
+          responseContent.innerHTML = `<p class="text-danger">Errore: ${data.error || 'Si è verificato un errore durante l\'elaborazione della tua domanda.'}</p>`;
+        }
+      } catch (error) {
+        responseContent.innerHTML = '<p class="text-danger">Si è verificato un errore di comunicazione con il server.</p>';
+        console.error('Error:', error);
+      }
+    });
+    
+    // Permetti di inviare la domanda con Invio
+    questionInput.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        askButton.click();
+      }
+    });
+  });
+</script>
+
+<%- include('partials/footer') %>

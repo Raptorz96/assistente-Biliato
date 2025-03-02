@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preventivo - Studio Biliato</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+    }
+    .letterhead {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .letterhead h1 {
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+    .document-title {
+      text-align: center;
+      margin: 30px 0;
+      font-size: 24px;
+      color: #2c3e50;
+      font-weight: bold;
+    }
+    .estimate-details {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+    .estimate-info {
+      flex: 1;
+    }
+    .client-info {
+      flex: 1;
+      text-align: right;
+    }
+    .services-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+    }
+    .services-table th, .services-table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    .services-table th {
+      background-color: #f5f5f5;
+      font-weight: bold;
+    }
+    .services-table .amount {
+      text-align: right;
+    }
+    .services-table .total-row {
+      font-weight: bold;
+      background-color: #f9f9f9;
+    }
+    .notes {
+      margin: 30px 0;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-left: 3px solid #2c3e50;
+    }
+    .terms {
+      margin: 30px 0;
+    }
+    .terms h3 {
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+    .terms ul {
+      padding-left: 20px;
+    }
+    .signature {
+      margin-top: 50px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .signature-box {
+      flex: 1;
+      max-width: 45%;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+    }
+    .footer {
+      margin-top: 50px;
+      font-size: 0.8em;
+      text-align: center;
+      color: #777;
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="letterhead">
+      <h1>Studio Biliato</h1>
+      <p>Via Roma, 123 - 00100 Roma</p>
+      <p>Tel: 06 123456789 - Email: info@studiobiliato.example</p>
+      <p>P.IVA 12345678901 - C.F. BLTMRC80A01H501U</p>
+    </div>
+    
+    <div class="document-title">
+      PREVENTIVO
+    </div>
+    
+    <div class="estimate-details">
+      <div class="estimate-info">
+        <p><strong>Preventivo Num.:</strong> <%= estimateNumber %></p>
+        <p><strong>Data:</strong> <%= formatDate(estimateDate) %></p>
+        <p><strong>Valido fino al:</strong> <%= formatDate(validUntil) %></p>
+      </div>
+      
+      <div class="client-info">
+        <p><strong><%= name %></strong></p>
+        <% if (vatNumber) { %><p>P.IVA: <%= vatNumber %></p><% } %>
+        <p>C.F.: <%= fiscalCode %></p>
+        <p><%= address.street %><br>
+           <%= address.postalCode %> <%= address.city %> (<%= address.province %>)</p>
+      </div>
+    </div>
+    
+    <table class="services-table">
+      <thead>
+        <tr>
+          <th width="5%">Cod.</th>
+          <th width="50%">Descrizione Servizio</th>
+          <th width="15%">Periodicità</th>
+          <th width="15%" class="amount">Importo</th>
+          <th width="15%" class="amount">Totale Annuo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% services.forEach((service, index) => { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= service.description %></td>
+            <td><%= service.frequency %></td>
+            <td class="amount"><%= formatCurrency(service.amount) %></td>
+            <td class="amount"><%= formatCurrency(service.annualTotal || service.amount) %></td>
+          </tr>
+        <% }) %>
+        
+        <tr class="total-row">
+          <td colspan="4" style="text-align: right;"><strong>Totale:</strong></td>
+          <td class="amount"><%= formatCurrency(totalAmount) %></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div class="notes">
+      <h3>Note</h3>
+      <p>I prezzi indicati sono da intendersi IVA e cassa previdenziale escluse.</p>
+      <p>Il presente preventivo ha validità di 30 giorni dalla data di emissione.</p>
+      <% if (notes) { %><p><%= notes %></p><% } %>
+    </div>
+    
+    <div class="terms">
+      <h3>Termini e Condizioni</h3>
+      <ul>
+        <li>I servizi verranno erogati secondo la periodicità indicata nella tabella dei servizi.</li>
+        <li>La fatturazione avverrà con cadenza trimestrale posticipata.</li>
+        <li>Il pagamento dovrà essere effettuato entro 30 giorni dalla data di emissione della fattura.</li>
+        <li>L'accordo ha durata annuale con rinnovo tacito, salvo disdetta da comunicarsi con preavviso di almeno 30 giorni.</li>
+        <li>Eventuali servizi non previsti nel presente preventivo saranno oggetto di separata quotazione.</li>
+      </ul>
+    </div>
+    
+    <div class="signature">
+      <div class="signature-box">
+        <p>Studio Biliato</p>
+        <p>Dott. Marco Biliato</p>
+      </div>
+      
+      <div class="signature-box">
+        <p>Per accettazione</p>
+        <p><%= name %></p>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>Studio Biliato - P.IVA 12345678901 - C.F. BLTMRC80A01H501U</p>
+      <p>Iscrizione all'Albo dei Dottori Commercialisti di Roma n. 12345</p>
+    </div>
+  </div>
+</body>
+</html>
