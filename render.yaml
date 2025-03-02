@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: assistente-biliato
+    env: node
+    buildCommand: npm install && npm run client-install && npm run client-build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-3.5-turbo
+      - key: API_ENABLED
+        value: true

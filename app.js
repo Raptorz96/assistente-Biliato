@@ -32,12 +32,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve static files from React build in production
-// or from the public directory in development
+// Serve static files from React build
+// In production serve from build folder, in development serve both public and client build
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/build')));
 } else {
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(__dirname, 'client/build')));
 }
 
 // API status route
@@ -246,12 +247,8 @@ app.get('/api/test', (req, res) => {
 
 // For any route not matched by previous routes, serve React app
 app.get('*', (req, res) => {
-  if (process.env.NODE_ENV === 'production') {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-  } else {
-    // In development, just respond with a 404 JSON
-    res.status(404).json({ error: 'Pagina non trovata' });
-  }
+  // Send React index.html for all routes in both production and development
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
 // Error handler
