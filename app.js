@@ -22,14 +22,9 @@ try {
   console.error('Error loading database module:', err);
 }
 
-// Set view engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware per il calcolo dei tempi di risposta
 app.use((req, res, next) => {
@@ -37,15 +32,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes
-app.get('/', (req, res) => {
-  res.render('index', { title: 'Assistente Biliato' });
-});
-
-// System status route
-app.get('/system', (req, res) => {
-  res.render('system', { title: 'Stato del Sistema - Assistente Biliato' });
-});
+// Serve static files from React build in production
+// or from the public directory in development
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+} else {
+  app.use(express.static(path.join(__dirname, 'public')));
+}
 
 // API status route
 app.get('/api/status', (req, res) => {
@@ -251,16 +244,20 @@ app.get('/api/test', (req, res) => {
   });
 });
 
-// 404 handler
-app.use((req, res, next) => {
-  res.status(404).render('404', { title: 'Pagina non trovata' });
+// For any route not matched by previous routes, serve React app
+app.get('*', (req, res) => {
+  if (process.env.NODE_ENV === 'production') {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  } else {
+    res.status(404).json({ error: 'Pagina non trovata' });
+  }
 });
 
 // Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).render('error', { 
-    title: 'Errore', 
+  res.status(500).json({ 
+    error: 'Si è verificato un errore', 
     message: process.env.NODE_ENV === 'production' ? 'Si è verificato un errore' : err.message
   });
 });
