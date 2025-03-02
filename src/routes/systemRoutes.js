@@ -223,19 +223,40 @@ router.post('/openai-cache/clear', (req, res) => {
 
 /**
  * @route   GET /api/system/monitor
- * @desc    Visualizza la pagina di monitoraggio del sistema
+ * @desc    Ottiene i dati di monitoraggio del sistema
  * @access  Private (solo admin)
  */
 router.get('/monitor', (req, res) => {
   try {
-    res.render('system', { 
-      title: 'Monitoraggio Sistema'
+    // Ottieni dati di sistema
+    const systemInfo = {
+      appName: 'Assistente Biliato',
+      version: process.env.npm_package_version || '1.0.0',
+      environment: process.env.NODE_ENV || 'development',
+      uptime: Math.floor(process.uptime()),
+      timestamp: new Date().toISOString(),
+      memory: process.memoryUsage(),
+      os: {
+        platform: os.platform(),
+        release: os.release(),
+        hostname: os.hostname(),
+        uptime: os.uptime(),
+        freemem: os.freemem(),
+        totalmem: os.totalmem(),
+        cpus: os.cpus().length
+      }
+    };
+    
+    res.json({
+      status: 'success',
+      data: systemInfo
     });
   } catch (error) {
-    console.error('Errore durante il caricamento della pagina di monitoraggio:', error);
-    res.status(500).render('error', { 
-      title: 'Errore', 
-      message: process.env.NODE_ENV === 'production' ? 'Si è verificato un errore' : error.message
+    console.error('Errore durante il recupero dei dati di monitoraggio:', error);
+    res.status(500).json({ 
+      status: 'error', 
+      message: 'Si è verificato un errore durante il recupero dei dati di monitoraggio',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 });

@@ -249,6 +249,7 @@ app.get('*', (req, res) => {
   if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   } else {
+    // In development, just respond with a 404 JSON
     res.status(404).json({ error: 'Pagina non trovata' });
   }
 });
